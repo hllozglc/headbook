@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:headbook/services/userService.dart';
 import 'package:headbook/views/viewRegister.dart';
+
 class Login extends StatefulWidget {
   const Login({super.key});
 
@@ -9,7 +11,13 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  UserService _userService = UserService();
   TextEditingController email = TextEditingController();
+
+  void setUser() async {
+    await _userService.loginUser(email.text);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,13 +35,18 @@ class _LoginState extends State<Login> {
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: TextField(
-          decoration: InputDecoration(border: OutlineInputBorder(), hintText: 'E-Mail'),
+          decoration: const InputDecoration(border: OutlineInputBorder(), hintText: 'E-Mail'),
           controller: email,
         ),
       ),
       bottomNavigationBar: BottomAppBar(
         color: Colors.white,
-        child: ElevatedButton(onPressed: () {}, child: const Text('Giriş')),
+        child: ElevatedButton(
+          onPressed: () {
+            _userService.loginUser(email.text);
+          },
+          child: const Text('Giriş'),
+        ),
       ),
     );
   }
